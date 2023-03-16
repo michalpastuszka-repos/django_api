@@ -7,8 +7,8 @@ from .models import UserProfile, CarModel, ArticleCars, FuelType
 from .serializers import UserProfileSerializer, ArticleCarsSerializer, CarModelSerializer, FuelTypeSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-# Create your views here.
 
+# Create your views here.
 #endpoint to log in by user
 class LoginView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -16,9 +16,8 @@ class LoginView(APIView):
 
     def get(self, request, format=None):
         content = {
-            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'user': str(request.user),
             'auth': str(request.auth),
-            'user_type': str(request.membership),
         }
         return Response(content)
 
@@ -41,11 +40,11 @@ class CreateFuel(generics.CreateAPIView):
 
 #public endpoint to serve data from your models with all related objects
 class AllArticleCars(generics.ListAPIView):
-    serializer_class = ArticleCars
+    serializer_class = ArticleCarsSerializer
     queryset = ArticleCars.objects.all()
 
 class AllUserProfiles(generics.ListAPIView):
-    serializer_class = UserProfile
+    serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
 
 class AllCarModels(generics.ListAPIView):
@@ -60,16 +59,22 @@ class AllFuelTypes(generics.ListAPIView):
 #private endpoint (only for owners) to update entry with nested objects
 class UpdateProfile(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = UserProfile
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
 
 class UpdateArticle(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ArticleCarsSerializer
+    queryset = ArticleCars.objects.all()
 
 class UpdateCar(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CarModelSerializer
+    queryset = CarModel.objects.all()
 
-
+class UpdateFuelType(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CarModelSerializer
+    queryset = FuelType.objects.all()
 
 
