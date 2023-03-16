@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import UserProfile, ArticleCars, CarModel, FuelType
 
+
 # public endpoint to serve data from your models with all related objects
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -19,16 +20,14 @@ class ArticleCarsSerializer(serializers.ModelSerializer):
         representation['data_posted'] = instance.data_posted.strftime('%d-%m-%Y %H:%M:%S')
         return representation
 
+
 class CarModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = '__all__'
 
+
 class FuelTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FuelType
         fields = '__all__'
-
-
-
-

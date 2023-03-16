@@ -7,7 +7,6 @@ from django.urls import reverse
 
 
 # Create your models here.
-
 class UserProfile(models.Model):
     objects = None
     USER_TYPES = (
@@ -24,14 +23,17 @@ class UserProfile(models.Model):
     def __str__(self):
         return f'Profile of {self.user.username}'
 
+
 @receiver(post_save, sender=UserProfile)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=UserProfile)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 # one relation one to many
 class ArticleCars(models.Model):
